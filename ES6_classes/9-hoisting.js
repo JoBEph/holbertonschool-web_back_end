@@ -31,7 +31,6 @@ export class StudentHolberton {
   get fullStudentDescription() {
     return `${this._firstName} ${this._lastName} - ${this._holbertonClass.year} - ${this._holbertonClass.location}`;
   }
-  
 }
 
 const class2019 = new HolbertonClass(2019, 'San Francisco');
