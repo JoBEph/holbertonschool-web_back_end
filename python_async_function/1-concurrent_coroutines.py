@@ -1,8 +1,11 @@
+Python
+
 #!/usr/bin/env python3
 
 """ concurrent coroutines """
 import asyncio
 import random
+from typing import List
 
 
 async def wait_random(max_delay: int = 10) -> float:
@@ -12,16 +15,7 @@ async def wait_random(max_delay: int = 10) -> float:
     return delay
 
 
-async def wait_n(n: int, max_delay: int) -> list:
-    """wait for n random delays and return a list of the delays"""
-    tasks = [wait_random(max_delay) for _ in range(n)]
-    delays = await asyncio.gather(*tasks)
+async def wait_n(n: int, max_delay: int) -> List[float]:
+    """ takes in an integer and a max_delay integer as arguments"""
+    delays = await asyncio.gather(*(wait_random(max_delay) for _ in range(n)))
     return sorted(delays)
-
-if __name__ == "__main__":
-    async def test():
-        print(await wait_n(5, 5))
-        print(await wait_n(10, 7))
-        print(await wait_n(10, 0))
-
-    asyncio.run(test())
