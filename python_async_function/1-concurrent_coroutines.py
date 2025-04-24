@@ -17,3 +17,11 @@ async def wait_n(n: int, max_delay: int) -> list:
     tasks = [wait_random(max_delay) for _ in range(n)]
     delays = await asyncio.gather(*tasks)
     return sorted(delays)
+
+if __name__ == "__main__":
+    async def test():
+        print(await wait_n(5, 5))
+        print(await wait_n(10, 7))
+        print(await wait_n(10, 0))
+
+    asyncio.run(test())
