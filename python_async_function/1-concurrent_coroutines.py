@@ -1,8 +1,7 @@
-Python
-
 #!/usr/bin/env python3
 
 """ concurrent coroutines """
+
 import asyncio
 import random
 from typing import List
