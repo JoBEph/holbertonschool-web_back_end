@@ -35,3 +35,8 @@ class Server:
         if start >= len(dataset):
             return []
         return dataset[start:end]
+
+    def get_total_pages(self, page_size: int) -> int:
+        """Number of pages based on dataset length and page_size"""
+        dataset_length = len(self.dataset())
+        return math.ceil(dataset_length / page_size)
