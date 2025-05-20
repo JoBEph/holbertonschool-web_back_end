@@ -1,28 +1,42 @@
 const http = require('http');
 const countStudents = require('./3-read_file_async');
+const fs = require('fs');
 
-const app = http.createServer((req, res) => {
-  const { url } = req;
+const app = http.createServer(async (req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
 
-  if (url === '/') {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
+  if (req.url === '/') {
     res.end('Hello Holberton School!');
-  } else if (url === '/students') {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
+  } else if (req.url === '/students') {
+    const databasePath = process.argv[2];
 
-    const database = process.argv[2];
-    countStudents(database)
-      .then((report) => {
-        res.end(`This is the list of our students\n${report}`);
-      })
-      .catch((err) => {
-        res.end(`This is the list of our students\n${err.message}`);
-      });
+    if (!databasePath) {
+      res.end('This is the list of our students\nCannot load the database');
+      return;
+    }
+
+    let capturedOutput = '';
+    const originalConsoleLog = console.log;
+    console.log = (message) => {
+      capturedOutput += message + '\n';
+    };
+
+    try {
+      await countStudents(databasePath);
+      res.end(`This is the list of our students\n${capturedOutput.trim()}`);
+    } catch (error) {
+      res.end(`This is the list of our students\nCannot load the database`);
+    } finally {
+      console.log = originalConsoleLog;
+    }
   } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not Found');
   }
 });
 
-app.listen(1245);
+app.listen(1245, () => {
+
+});
+
 module.exports = app;
