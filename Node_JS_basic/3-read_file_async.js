@@ -1,5 +1,7 @@
 #!/usr/bin/node
 
+/* this script reads a csv file */
+
 const fs = require('fs').promises;
 
 async function countStudents(path) {
