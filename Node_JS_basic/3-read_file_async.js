@@ -1,5 +1,4 @@
 #!/usr/bin/node
-/* eslint-disable */
 
 /* this script reads a csv file */
 
